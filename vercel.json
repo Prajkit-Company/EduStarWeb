@@ -1,7 +1,7 @@
 {
   "outputDirectory": "dist",
   "framework": "vite",
-  "buildCommand": "vite build",
+  "buildCommand": "npx vite build",
   "build": {
     "env": {
       "NODE_VERSION": "20.x"
