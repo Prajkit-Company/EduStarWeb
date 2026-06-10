@@ -8,8 +8,9 @@ export function Footer({ setCurrentPage }: FooterProps) {
   const quickLinks = [
     { name: 'About Us', page: 'about' },
     { name: 'Academic Programs', page: 'courses' },
-    { name: 'Campus Gallery', page: 'gallery' },
-    { name: 'Achievements', page: 'achievements' },
+    { name: 'Admission', page: 'admission' },
+    { name: 'Faculty & Staff', page: 'faculty' },
+    { name: 'Campus Life', page: 'campus-life' },
     { name: 'Contact Us', page: 'contact' },
   ];
 
@@ -133,9 +134,10 @@ export function Footer({ setCurrentPage }: FooterProps) {
         <div className="container mx-auto px-6 py-6">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-sm">
             <p className="text-gray-500">
-              © 2024 St. Augustine's College of Excellence. All rights reserved.
+              © 2025 St. Augustine's College of Excellence. All rights reserved. | Powered by Prajkit
             </p>
             <div className="flex gap-6 text-gray-500">
+              <span className="flex items-center gap-1 text-gray-500">🔒 Secured with SSL</span>
               <a href="#" className="hover:text-[#c9a962] transition-colors duration-300">Privacy Policy</a>
               <a href="#" className="hover:text-[#c9a962] transition-colors duration-300">Terms of Service</a>
               <a href="#" className="hover:text-[#c9a962] transition-colors duration-300">Sitemap</a>

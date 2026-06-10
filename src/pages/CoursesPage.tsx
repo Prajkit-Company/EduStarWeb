@@ -312,7 +312,7 @@ export function CoursesPage({ setCurrentPage }: CoursesPageProps) {
                         </div>
                         <div className="md:col-span-2">
                           <button 
-                            onClick={() => setCurrentPage('contact')}
+                            onClick={() => setCurrentPage('admission')}
                             className="btn-primary px-8 py-3 text-white rounded-lg font-medium inline-flex items-center gap-2"
                           >
                             Apply Now <ArrowRight className="w-4 h-4" />
@@ -360,6 +360,9 @@ export function CoursesPage({ setCurrentPage }: CoursesPageProps) {
         </div>
       </section>
 
+      {/* Timetable Section */}
+      <TimetableSection />
+
       {/* CTA */}
       <section className="py-20 bg-gradient-to-r from-[#0c2340] to-[#1a3a5c]">
         <div className="container mx-auto px-6 text-center">
@@ -371,7 +374,7 @@ export function CoursesPage({ setCurrentPage }: CoursesPageProps) {
           </p>
           <div className="flex flex-wrap justify-center gap-4">
             <button 
-              onClick={() => setCurrentPage('contact')}
+              onClick={() => setCurrentPage('admission')}
               className="btn-secondary px-10 py-4 text-white rounded-lg font-medium inline-flex items-center gap-3"
             >
               Apply for Admission <ArrowRight className="w-5 h-5" />
@@ -383,5 +386,131 @@ export function CoursesPage({ setCurrentPage }: CoursesPageProps) {
         </div>
       </section>
     </div>
+  );
+}
+
+const timetableSchedules = [
+  {
+    grade: 'Science (Grade 11)',
+    days: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'],
+    periods: [
+      ['Physics', 'Chemistry', 'Math', 'Biology', 'English'],
+      ['Chemistry', 'Math', 'Physics', 'English', 'Biology'],
+      ['Math', 'Physics', 'Chemistry', 'Biology', 'English'],
+      ['Biology', 'Math', 'Chemistry', 'Physics', 'English'],
+      ['English', 'Physics', 'Math', 'Chemistry', 'Biology'],
+    ],
+  },
+  {
+    grade: 'Commerce (Grade 11)',
+    days: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'],
+    periods: [
+      ['Accounts', 'Economics', 'B. Studies', 'Math', 'English'],
+      ['Economics', 'Accounts', 'Math', 'B. Studies', 'English'],
+      ['B. Studies', 'Math', 'Accounts', 'Economics', 'English'],
+      ['Math', 'Accounts', 'Economics', 'B. Studies', 'English'],
+      ['English', 'B. Studies', 'Math', 'Accounts', 'Economics'],
+    ],
+  },
+  {
+    grade: 'B.Sc (Year 1)',
+    days: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'],
+    periods: [
+      ['Physics', 'Chemistry', 'Math', 'Lab', 'Envi. Sci'],
+      ['Chemistry', 'Math', 'Physics', 'Lab', 'English'],
+      ['Math', 'Physics', 'Chemistry', 'Lab', 'Envi. Sci'],
+      ['Physics', 'Chemistry', 'Math', 'Lab', 'English'],
+      ['Envi. Sci', 'Math', 'Physics', 'Chemistry', 'English'],
+    ],
+  },
+  {
+    grade: 'B.Com (Year 1)',
+    days: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'],
+    periods: [
+      ['F. Accounting', 'Economics', 'B. Law', 'Math/Stats', 'English'],
+      ['Economics', 'F. Accounting', 'B. Law', 'Math/Stats', 'English'],
+      ['B. Law', 'Math/Stats', 'F. Accounting', 'Economics', 'English'],
+      ['Math/Stats', 'B. Law', 'Economics', 'F. Accounting', 'English'],
+      ['English', 'F. Accounting', 'Economics', 'B. Law', 'Math/Stats'],
+    ],
+  },
+  {
+    grade: 'BCA (Year 1)',
+    days: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'],
+    periods: [
+      ['C Programming', 'Math', 'D. Logic', 'C Lab', 'English'],
+      ['Math', 'C Programming', 'D. Logic', 'Web Lab', 'English'],
+      ['D. Logic', 'C Programming', 'Math', 'C Lab', 'English'],
+      ['C Programming', 'Math', 'D. Logic', 'Web Lab', 'English'],
+      ['English', 'D. Logic', 'C Programming', 'Math', 'C Lab'],
+    ],
+  },
+];
+
+function TimetableSection() {
+  const [selected, setSelected] = useState(timetableSchedules[0].grade);
+
+  const current = timetableSchedules.find((s) => s.grade === selected) || timetableSchedules[0];
+
+  return (
+    <section className="py-24 bg-white">
+      <div className="container mx-auto px-6">
+        <div className="text-center max-w-3xl mx-auto mb-12">
+          <span className="inline-block text-[#c9a962] text-sm font-semibold tracking-widest uppercase mb-4">
+            Schedule
+          </span>
+          <h2 className="text-4xl lg:text-5xl font-serif font-semibold text-[#0c2340] mb-6">
+            Class Timetable
+          </h2>
+          <div className="w-16 h-1 bg-[#c9a962] rounded mx-auto mb-6" />
+          <p className="text-gray-600 text-lg">
+            View weekly class schedules by program. Timetables may be adjusted each semester.
+          </p>
+        </div>
+
+        <div className="flex flex-wrap gap-2 justify-center mb-10">
+          {timetableSchedules.map((s) => (
+            <button
+              key={s.grade}
+              onClick={() => setSelected(s.grade)}
+              className={`px-5 py-2.5 rounded-lg font-medium text-sm transition-all ${
+                selected === s.grade
+                  ? 'bg-[#0c2340] text-white shadow-lg'
+                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+              }`}
+            >
+              {s.grade}
+            </button>
+          ))}
+        </div>
+
+        <div className="overflow-x-auto rounded-xl shadow-lg border border-gray-100 max-w-4xl mx-auto">
+          <table className="w-full bg-white">
+            <thead>
+              <tr className="bg-[#0c2340]">
+                <th className="px-4 py-3 text-left text-sm font-semibold text-white">Day</th>
+                {[1,2,3,4,5].map((p) => (
+                  <th key={p} className="px-3 py-3 text-center text-sm font-semibold text-white">
+                    Period {p}
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-gray-100">
+              {current.days.map((day, i) => (
+                <tr key={day} className={i % 2 === 0 ? 'bg-white' : 'bg-gray-50/50'}>
+                  <td className="px-4 py-3 font-semibold text-[#0c2340] whitespace-nowrap">{day}</td>
+                  {current.periods[i].map((subject, j) => (
+                    <td key={j} className="px-3 py-3 text-center text-sm text-gray-700">
+                      {subject}
+                    </td>
+                  ))}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
   );
 }

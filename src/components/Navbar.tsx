@@ -1,18 +1,15 @@
 import { useState, useEffect } from 'react';
 import { Menu, X, Phone, Mail, GraduationCap, LayoutDashboard, LogIn } from 'lucide-react';
 
-type Role = 'admin' | 'staff' | 'student' | 'alumni';
-
 interface NavbarProps {
   currentPage: string;
   setCurrentPage: (page: string) => void;
   isLoggedIn: boolean;
-  role: Role | null;
-  onPortalClick: (role: Role) => void;
+  onLoginClick: () => void;
   onDashboardClick: () => void;
 }
 
-export function Navbar({ currentPage, setCurrentPage, isLoggedIn, role, onPortalClick, onDashboardClick }: NavbarProps) {
+export function Navbar({ currentPage, setCurrentPage, isLoggedIn, onLoginClick, onDashboardClick }: NavbarProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
 
@@ -26,14 +23,11 @@ export function Navbar({ currentPage, setCurrentPage, isLoggedIn, role, onPortal
     { name: 'Home', page: 'home' },
     { name: 'About', page: 'about' },
     { name: 'Academics', page: 'courses' },
-    { name: 'Gallery', page: 'gallery' },
-    { name: 'Achievements', page: 'achievements' },
+    { name: 'Admission', page: 'admission' },
+    { name: 'Faculty', page: 'faculty' },
+    { name: 'Campus Life', page: 'campus-life' },
     { name: 'Contact', page: 'contact' },
   ];
-
-  const roleLabel: Record<Role, string> = {
-    admin: 'Admin', staff: 'Staff', student: 'Student', alumni: 'Alumni',
-  };
 
   return (
     <>
@@ -51,13 +45,21 @@ export function Navbar({ currentPage, setCurrentPage, isLoggedIn, role, onPortal
             </a>
           </div>
           <div className="flex items-center gap-4">
-            {!isLoggedIn && (
+            {!isLoggedIn ? (
               <button
-                onClick={() => onPortalClick('admin')}
+                onClick={onLoginClick}
                 className="flex items-center gap-2 px-5 py-1.5 bg-[#c9a962] text-white rounded-full text-xs font-semibold tracking-wide hover:bg-[#b8994d] transition-all duration-300 shadow-md shadow-[#c9a962]/20"
               >
                 <LogIn className="w-3.5 h-3.5" />
                 Login
+              </button>
+            ) : (
+              <button
+                onClick={onDashboardClick}
+                className="flex items-center gap-2 px-5 py-1.5 bg-white/10 text-white rounded-full text-xs font-semibold tracking-wide hover:bg-white/20 transition-all duration-300"
+              >
+                <LayoutDashboard className="w-3.5 h-3.5" />
+                Admin Panel
               </button>
             )}
           </div>
@@ -106,17 +108,8 @@ export function Navbar({ currentPage, setCurrentPage, isLoggedIn, role, onPortal
 
             {/* CTA */}
             <div className="hidden lg:flex items-center gap-3">
-              {isLoggedIn && role && (
-                <button
-                  onClick={onDashboardClick}
-                  className="flex items-center gap-2 px-5 py-2.5 border border-[#0c2340] text-[#0c2340] rounded-lg font-medium text-sm hover:bg-[#0c2340] hover:text-white transition-all duration-300"
-                >
-                  <LayoutDashboard className="w-4 h-4" />
-                  {roleLabel[role]} Dashboard
-                </button>
-              )}
               <button
-                onClick={() => setCurrentPage('contact')}
+                onClick={() => setCurrentPage('admission')}
                 className="btn-primary px-6 py-3 text-white rounded-lg font-medium text-sm tracking-wide"
               >
                 Apply Now
@@ -146,23 +139,23 @@ export function Navbar({ currentPage, setCurrentPage, isLoggedIn, role, onPortal
                 </button>
               ))}
               <div className="pt-4 space-y-2 border-t border-gray-100">
-                {isLoggedIn && role ? (
+                {isLoggedIn ? (
                   <button
                     onClick={() => { onDashboardClick(); setIsOpen(false); }}
-                    className="w-full flex items-center gap-2 px-4 py-3 border border-[#0c2340] text-[#0c2340] rounded-lg font-medium text-sm"
+                    className="w-full flex items-center justify-center gap-2 px-4 py-3 border border-[#0c2340] text-[#0c2340] rounded-lg font-medium text-sm"
                   >
-                    <LayoutDashboard className="w-4 h-4" /> {roleLabel[role]} Dashboard
+                    <LayoutDashboard className="w-4 h-4" /> Admin Panel
                   </button>
                 ) : (
                   <button
-                    onClick={() => { onPortalClick('admin'); setIsOpen(false); }}
+                    onClick={() => { onLoginClick(); setIsOpen(false); }}
                     className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-[#c9a962] text-white rounded-lg font-semibold text-sm"
                   >
                     <LogIn className="w-4 h-4" /> Login
                   </button>
                 )}
                 <button
-                  onClick={() => { setCurrentPage('contact'); setIsOpen(false); }}
+                  onClick={() => { setCurrentPage('admission'); setIsOpen(false); }}
                   className="w-full py-3 bg-[#0c2340] text-white rounded-lg font-medium text-sm"
                 >
                   Apply Now

@@ -1,38 +1,41 @@
 import { useState, useEffect } from 'react';
 import { Navbar } from './components/Navbar';
 import { Footer } from './components/Footer';
+import { NoticeBar } from './components/NoticeBar';
+import { StandardBadge } from './components/StandardBadge';
 import { HomePage } from './pages/HomePage';
 import { AboutPage } from './pages/AboutPage';
 import { CoursesPage } from './pages/CoursesPage';
-import { GalleryPage } from './pages/GalleryPage';
-import { AchievementsPage } from './pages/AchievementsPage';
 import { ContactPage } from './pages/ContactPage';
 import { LoginPage } from './pages/LoginPage';
+import { AdmissionPage } from './pages/AdmissionPage';
+import { FacultyPage } from './pages/FacultyPage';
+import { CampusLifePage } from './pages/CampusLifePage';
 import { AdminDashboard } from './pages/dashboards/AdminDashboard';
-import { StaffDashboard } from './pages/dashboards/StaffDashboard';
-import { StudentDashboard } from './pages/dashboards/StudentDashboard';
-import { AlumniDashboard } from './pages/dashboards/AlumniDashboard';
+import { seedIfEmpty } from './lib/cms';
 import { Phone, MessageCircle, Mail, ChevronUp, X, Plus } from 'lucide-react';
-
-type Role = 'admin' | 'staff' | 'student' | 'alumni';
 
 export function App() {
   const [currentPage, setCurrentPage] = useState('home');
-  const [role, setRole] = useState<Role | null>(null);
-  const [loginRole, setLoginRole] = useState<Role>('admin');
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  const handleLogin = (r: Role) => {
-    setRole(r);
+  const handleLogin = () => {
+    setIsLoggedIn(true);
     setCurrentPage('dashboard');
   };
 
   const handleLogout = () => {
-    setRole(null);
+    setIsLoggedIn(false);
     setCurrentPage('home');
   };
 
   const goToDashboard = () => setCurrentPage('dashboard');
   const goToWebsite = () => setCurrentPage('home');
+
+  // Seed demo data on first load
+  useEffect(() => {
+    seedIfEmpty();
+  }, []);
 
   // Scroll to top when page changes
   useEffect(() => {
@@ -41,30 +44,22 @@ export function App() {
 
   // Login page
   if (currentPage === 'login') {
-    return <LoginPage defaultRole={loginRole} onLogin={handleLogin} onBack={goToWebsite} />;
+    return <LoginPage onLogin={handleLogin} onBack={goToWebsite} />;
   }
 
-  // Dashboard pages (no navbar/footer)
-  if (currentPage === 'dashboard' && role) {
-    const dashProps = { onLogout: handleLogout, onBack: goToWebsite };
-    return (
-      <div>
-        {role === 'admin'   && <AdminDashboard   {...dashProps} />}
-        {role === 'staff'   && <StaffDashboard   {...dashProps} />}
-        {role === 'student' && <StudentDashboard {...dashProps} />}
-        {role === 'alumni'  && <AlumniDashboard  {...dashProps} />}
-      </div>
-    );
+  // Admin Dashboard (no navbar/footer)
+  if (currentPage === 'dashboard' && isLoggedIn) {
+    return <AdminDashboard onLogout={handleLogout} onBack={goToWebsite} />;
   }
 
   return (
     <div className="min-h-screen bg-[#fafaf8]">
+      <NoticeBar />
       <Navbar
         currentPage={currentPage}
         setCurrentPage={setCurrentPage}
-        isLoggedIn={!!role}
-        role={role}
-        onPortalClick={(r) => { setLoginRole(r); setCurrentPage(role ? 'dashboard' : 'login'); }}
+        isLoggedIn={isLoggedIn}
+        onLoginClick={() => setCurrentPage('login')}
         onDashboardClick={goToDashboard}
       />
       
@@ -72,9 +67,10 @@ export function App() {
         {currentPage === 'home' && <HomePage setCurrentPage={setCurrentPage} />}
         {currentPage === 'about' && <AboutPage setCurrentPage={setCurrentPage} />}
         {currentPage === 'courses' && <CoursesPage setCurrentPage={setCurrentPage} />}
-        {currentPage === 'gallery' && <GalleryPage />}
-        {currentPage === 'achievements' && <AchievementsPage setCurrentPage={setCurrentPage} />}
         {currentPage === 'contact' && <ContactPage />}
+        {currentPage === 'admission' && <AdmissionPage setCurrentPage={setCurrentPage} />}
+        {currentPage === 'faculty' && <FacultyPage setCurrentPage={setCurrentPage} />}
+        {currentPage === 'campus-life' && <CampusLifePage setCurrentPage={setCurrentPage} />}
       </main>
 
       <Footer setCurrentPage={setCurrentPage} />
@@ -84,6 +80,9 @@ export function App() {
 
       {/* Floating Action Buttons */}
       <FloatingActions setCurrentPage={setCurrentPage} />
+
+      {/* Standard Package Badge */}
+      <StandardBadge />
     </div>
   );
 }

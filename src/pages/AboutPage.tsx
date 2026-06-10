@@ -372,10 +372,10 @@ export function AboutPage({ setCurrentPage }: AboutPageProps) {
             Join the St. Augustine's community and begin your journey toward academic excellence and personal growth.
           </p>
           <button 
-            onClick={() => setCurrentPage('contact')}
+            onClick={() => setCurrentPage('admission')}
             className="px-10 py-4 bg-[#0c2340] text-white rounded-lg font-medium hover:bg-[#0a1c30] transition-all duration-300 inline-flex items-center gap-3 shadow-lg"
           >
-            Contact Us Today <ArrowRight className="w-5 h-5" />
+            Apply Now <ArrowRight className="w-5 h-5" />
           </button>
         </div>
       </section>

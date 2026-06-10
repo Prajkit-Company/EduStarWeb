@@ -597,7 +597,7 @@ export function HomePage({ setCurrentPage }: HomePageProps) {
               Apply for Admission <ArrowRight className="w-5 h-5" />
             </button>
             <button 
-              onClick={() => setCurrentPage('contact')}
+              onClick={() => setCurrentPage('admission')}
               className="px-10 py-4 bg-white/10 backdrop-blur-sm border border-white/20 text-white rounded-lg font-medium hover:bg-white/20 transition-all duration-300"
             >
               Request Information
