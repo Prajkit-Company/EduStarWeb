@@ -1,0 +1,10 @@
+{
+  "outputDirectory": "dist",
+  "framework": "vite",
+  "buildCommand": "node node_modules/vite/bin/vite.js build",
+  "build": {
+    "env": {
+      "NODE_VERSION": "20.x"
+    }
+  }
+}
